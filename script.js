@@ -3,6 +3,8 @@ const play = document.getElementById('play')
 const stop = document.getElementById('stop')
 const progress = document.getElementById('progress')
 const timestamp = document.getElementById('timestamp')
+let xMousePos = undefined
+let videoWidth = video.scrollWidth
 
 //Play and pause video
 const toggleVideoStatus = () => {
@@ -52,11 +54,24 @@ const stopVideo = () => {
     video.pause()
 }
 
+// Seek 10 seconds
+const getMousePosition = (e) => {
+    xMousePos = e.layerX
+}
+
+const seekTenSeconds = () => {
+    videoWidth = video.scrollWidth
+    if (xMousePos > videoWidth / 2) video.currentTime += 10
+    else video.currentTime -= 10
+}
+
 // Event listeners
 video.addEventListener('click', toggleVideoStatus)
 video.addEventListener('pause', updatePlayIcon)
 video.addEventListener('play', updatePlayIcon)
 video.addEventListener('timeupdate', updateProgress)
+video.addEventListener('mousemove', getMousePosition)
+video.addEventListener('dblclick', seekTenSeconds)
 
 play.addEventListener('click', toggleVideoStatus)
 
